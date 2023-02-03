@@ -31,7 +31,7 @@ exit
 ```bash
 # bash
 sudo apt -y install git wget curl
-git clone git@github.com:HHildenbrandt/r-debug.git
+git clone git@github.com:rugtres/r-debug.git
 cd r-debug
 ./prepR.sh
 exit
