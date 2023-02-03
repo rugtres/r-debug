@@ -15,7 +15,7 @@ fi
 
 # Build chains
 $SUDO apt -y install \
-    git wget curl \
+    git rsync wget curl \
     build-essential \
     gcc$GCCVER gfortran$GCCVER gdb \
     clang$CLANGVER lldb$CLANGVER libomp$CLANGVER-dev \

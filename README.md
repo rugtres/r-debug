@@ -38,6 +38,7 @@ exit
 ```
 
 ## Make this the 'build' distro for R
+Time to set up some other stuff like ssh...
 ```powershell
 # powershell
 wsl --terminate Debian
