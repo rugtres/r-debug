@@ -33,6 +33,7 @@ exit
 sudo apt -y install git wget curl
 git clone git@github.com:rugtres/r-debug.git
 cd r-debug
+chmod +x *.sh
 ./prepR.sh
 exit
 ```

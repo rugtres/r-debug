@@ -5,6 +5,8 @@
 #
 # Hanno 2023
 
+PROFILE="$HOME/.bashrc"
+
 GCCVER=-12
 CLANGVER=-15
 
@@ -40,13 +42,13 @@ $SUDO apt -y install \
     default-jdk 
 
 
-# add some stuff to ~/.profile
-if [[ $( cat ~/.profile | grep -c "^# prepR.sh") -eq "0" ]]; then
-    echo >> ~/.profile
-    echo '# prepR.sh' >> ~/.profile
-    echo 'export LC_ALL=en_US.UTF-8' >> ~/.profile
-    echo 'export LANG=en_US.UTF-8' >> ~/.profile
-    echo 'PATH=$HOME/opt/bin:$PATH' >> ~/.profile
+# add some stuff to $PROFILE
+if [[ $( cat $PROFILE | grep -c "^# prepR.sh") -eq "0" ]]; then
+    echo >> $PROFILE
+    echo '# prepR.sh' >> $PROFILE
+    echo 'export LC_ALL=en_US.UTF-8' >> $PROFILE
+    echo 'export LANG=en_US.UTF-8' >> $PROFILE
+    echo 'PATH=$HOME/opt/bin:$PATH' >> $PROFILE
 fi
 
 ## set links in ~/.local/bin
