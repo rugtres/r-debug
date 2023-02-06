@@ -38,7 +38,7 @@ chmod +x *.sh
 exit
 ```
 
-## Make this the 'build' distro for R
+# Make this the 'build' distro for R
 Time to set up some other stuff like ssh...
 ```powershell
 # powershell
@@ -50,8 +50,8 @@ wsl --export Debian $HOME\wsl-exports\Rbuild.tar
 wsl --unregister Debian
 ```
 
-## Create a bunch of R distros
-### Rdevel
+# Create a bunch of R distros
+## Rdevel
 ```powershell
 # powershell
 wsl --import Rdevel $HOME\wsl-images\Rdevel $HOME\wsl-exports\Rbuild.tar
@@ -61,7 +61,7 @@ wsl --import Rdevel $HOME\wsl-images\Rdevel $HOME\wsl-exports\Rbuild.tar
 cd r-debug
 ./buildR.sh -R devel -t release
 ```
-### Rrelease
+## Rrelease
 ```powershell
 # powershell
 wsl --import Rrelease $HOME\wsl-images\Rrelease $HOME\wsl-exports\Rbuild.tar
@@ -71,7 +71,7 @@ wsl --import Rrelease $HOME\wsl-images\Rrelease $HOME\wsl-exports\Rbuild.tar
 cd r-debug
 ./buildR.sh -R 4.2.2 -t release
 ```
-### Rdebug
+## Rdebug
 ```powershell
 # powershell
 wsl --import Rdebug $HOME\wsl-images\Rdebug $HOME\wsl-exports\Rbuild.tar
@@ -81,7 +81,7 @@ wsl --import Rdebug $HOME\wsl-images\Rdebug $HOME\wsl-exports\Rbuild.tar
 cd r-debug
 ./buildR.sh -R 4.2.2 -t debug
 ```
-### Rvalgrind
+## Rvalgrind
 ```powershell
 # powershell
 wsl --import Rval $HOME\wsl-images\Rval $HOME\wsl-exports\Rbuild.tar
@@ -91,7 +91,14 @@ wsl --import Rval $HOME\wsl-images\Rval $HOME\wsl-exports\Rbuild.tar
 cd r-debug
 ./buildR.sh -R 4.2.2 -t debug -i valgrind
 ```
-### ...
-
-
-
+## R native (devel) linked against OpenBLAS
+```powershell
+# powershell
+wsl --import Rnative $HOME\wsl-images\Rnative $HOME\wsl-exports\Rbuild.tar
+```
+```bash
+# bash
+cd r-debug
+./buildOpenBLAS.sh
+./buildR.sh -R devel -t native -o
+```

@@ -6,9 +6,10 @@
 INST_DIR="$HOME/opt"
 R_VERSION="4.2.2"       # default
 
+# OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
 RLAPACKLIB="$INST_DIR/lib/R/lib/libRlapack.so"
-OPENBLASLIB="$INST_DIR/lib/libopenblas_omp.so"
+OPENBLASLIB="$INST_DIR/lib/libopenblas_omp.so"  # includes LAPACK
 
 export CC="gcc"
 export CXX="g++"
@@ -138,13 +139,13 @@ make --jobs=$(nproc)
 make install
 
 if [ ! -z "$openblas" ]; then
-    # move native libRblas
+    # move native libRblas & libRlapack
     mv ${RBLASLIB} ${RBLASLIB}.backup
     mv ${RLAPACKLIB} ${RLAPACKLIB}.backup
-    # create symlinks
+    # create symlinks to OpenBLAS
     ln -s ${OPENBLASLIB} ${RBLASLIB}
     ln -s ${OPENBLASLIB} ${RLAPACKLIB}
 fi
 
 # add some packages
-#$INST_DIR/bin/R -e "install.packages(c('devtools', 'Rcpp'), threads=$(nproc), repos='${R_MIRROR}')"
+$INST_DIR/bin/R -e "install.packages(c('devtools', 'Rcpp', 'SuppDists'), threads=$(nproc), repos='${R_MIRROR}')"
