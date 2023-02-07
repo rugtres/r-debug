@@ -138,6 +138,16 @@ cd "R-$R_VERSION"
 make --jobs=$(nproc) 
 make install
 
+# Create $HOME/.R/Makevars
+if [ -d "${HOME}/.R" ]; then
+    rm rf ${HOME}/.R
+fi
+mkdir "$HOME/.R"
+echo CC=${CC} > ${HOME}/.R/Makevars
+echo CXX=${CXX} >> ${HOME}/.R/Makevars
+echo CFLAGS= -std=gnu99 ${CFLAGS} >> ${HOME}/.R/Makevars
+echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/Makevars
+
 if [ ! -z "$openblas" ]; then
     # move native libRblas & libRlapack
     mv ${RBLASLIB} ${RBLASLIB}.backup

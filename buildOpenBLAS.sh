@@ -21,6 +21,8 @@ else
     git pull
 fi
 
+export CC=gcc
+export CXX=g++
 export FC=gfortran
 export DYNAMIC_ARCH=0
 export USE_OPENMP=1
