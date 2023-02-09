@@ -31,7 +31,6 @@ $SUDO update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++$CL
 $SUDO update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb$CLANGVER 15
 
 $SUDO apt -y install \
-    libopenblas-dev \
     libbz2-dev liblzma-dev \
     libreadline-dev libfribidi-dev libpcre2-dev \
     libcurl3-openssl-dev libssl-dev \
@@ -48,8 +47,13 @@ if [[ $( cat $PROFILE | grep -c "^# prepR.sh") -eq "0" ]]; then
     echo '# prepR.sh' >> $PROFILE
     echo 'export LC_ALL=en_US.UTF-8' >> $PROFILE
     echo 'export LANG=en_US.UTF-8' >> $PROFILE
-    echo 'PATH=$HOME/opt/bin:$PATH' >> $PROFILE
+    echo '. $HOME/.bashrc.r-debug' >> $PROFILE 
+    echo 'PATH=$PATH:~/opt/bin' > $HOME/.bashrc.r_debug
 fi
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+$SUDO dpkg-reconfigure locales
 
 ## set links in ~/.local/bin
 #if [ ! -d "$HOME/.local/bin" ] ; then

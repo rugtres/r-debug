@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# filename: dummy.sh
+# filename: buildR.sh
 # author: @Hanno
 
-INST_DIR="$HOME/opt"
+PREFIX="$HOME/opt"
+INST_DIR=$PREFIX
+R_NAME=""
 R_VERSION="4.2.2"       # default
-
-# OpenBLAS injection
-RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
-RLAPACKLIB="$INST_DIR/lib/R/lib/libRlapack.so"
 OPENBLASLIB="$INST_DIR/lib/libopenblas_omp.so"  # includes LAPACK
 
 export CC="gcc"
 export CXX="g++"
 export FC="gfortran"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # based on R CMD config <X>FLAGS:
 CFLAGS="-fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -Wall"
@@ -33,13 +33,15 @@ R_MIRROR="https://cran.uni-muenster.de/"        # CRAN mirror
 
 usage() {
 cat << EOF  
-Usage: $0 -R <R version> [-chtio]
+Usage: $0 -N name -R <R version> -S <suffix> [-chtio]
 -h      Display help
 -c      Use clang
--t      build type: debug|release|native
--i      instrumentation: valgrind
+-t      Build type: debug|release|native
+-i      Instrumentation: valgrind
 -o      link against OpenBLAS
+-N      Name
 -R      R version, "devel" or full version e.g. 4.2.1, defaults to ${R_VERSION}
+-S      Suffix
 EOF
 }
 
@@ -59,7 +61,7 @@ r_major () {
 }
 
 
-while getopts ":hct:oR:" option; do
+while getopts ":hct:i:oR:N:" option; do
    case $option in
       h) usage
          exit
@@ -94,11 +96,17 @@ while getopts ":hct:oR:" option; do
             exit_error "mangled R version '${OPTARG}'"
          fi
          ;;
+      N) R_NAME=$OPTARG
+         ;;
      \?) # Invalid option 
          exit_error "Invalid option"
          ;;
    esac
 done
+
+if [ -z "$R_NAME" ]; then
+    exit_error "please provide a name (-N)"
+fi
 
 # choose r-devel or r-base source tree
 if [ "$R_VERSION" == "devel" ]; then
@@ -115,10 +123,12 @@ else
     fi
 fi
 
+INST_DIR="${INST_DIR}/${R_NAME}"
 export CFLAGS="${CFLAGS} ${OPTFLAGS}"
 export CXXFLAGS="${CXXFLAGS} ${OPTFLAGS}"
 export FCFLAGS="${FCFLAGS} ${OPTFLAGS}"
 
+echo Bulding R with:
 echo "$CC: $CFLAGS"
 echo "$CXX: $CXXFLAGS"
 echo "$FC: $FCFLAGS"
@@ -138,24 +148,33 @@ cd "R-$R_VERSION"
 make --jobs=$(nproc) 
 make install
 
-# Create $HOME/.R/Makevars
-if [ -d "${HOME}/.R" ]; then
-    rm rf ${HOME}/.R
+# Create $HOME/.R/xxxx/Makevars
+if [ -d "${HOME}/.R/${R_NAME}" ]; then
+    rm -rf ${HOME}/.R/${R_NAME}
 fi
-mkdir "$HOME/.R"
-echo CC=${CC} > ${HOME}/.R/Makevars
-echo CXX=${CXX} >> ${HOME}/.R/Makevars
-echo CFLAGS= -std=gnu99 ${CFLAGS} >> ${HOME}/.R/Makevars
-echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/Makevars
+mkdir -p "$HOME/.R/$R_NAME"
+echo CC=${CC} > ${HOME}/.R/${R_NAME}/Makevars
+echo CXX=${CXX} >> ${HOME}/.R/${R_NAME}/Makevars
+echo CFLAGS= ${CFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
+echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
+ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 
+# symlink R binaries
+ln -sf "$INST_DIR/bin/R" "$PREFIX/bin/R"
+ln -sf "$INST_DIR/bin/Rscript" "$PREFIX/bin/Rscript"
+
+# OpenBLAS injection
+RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
+RLAPACKLIB="$INST_DIR/lib/R/lib/libRlapack.so"
 if [ ! -z "$openblas" ]; then
     # move native libRblas & libRlapack
     mv ${RBLASLIB} ${RBLASLIB}.backup
     mv ${RLAPACKLIB} ${RLAPACKLIB}.backup
     # create symlinks to OpenBLAS
-    ln -s ${OPENBLASLIB} ${RBLASLIB}
-    ln -s ${OPENBLASLIB} ${RLAPACKLIB}
+    ln -sf ${OPENBLASLIB} ${RBLASLIB}
+    ln -sf ${OPENBLASLIB} ${RLAPACKLIB}
 fi
 
 # add some packages
-$INST_DIR/bin/R -e "install.packages(c('devtools', 'Rcpp', 'SuppDists'), threads=$(nproc), repos='${R_MIRROR}')"
+# $INST_DIR/bin/R -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
+# $INST_DIR/bin/R -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"

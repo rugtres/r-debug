@@ -6,6 +6,17 @@ wsl --install -d Debian
 ```
 ```bash
 # bash
+exit
+```
+```powershell
+# powershell
+wsl -d Debian
+```
+```bash
+# bash
+# Fix Linux user for WSL export/import
+sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
+
 sudo nano /etc/atp/sources.list
 # replace 'bullseye' with 'bookworm':
 - deb http://deb.debian.org/debian bulleye main
@@ -21,25 +32,22 @@ sudo nano /etc/atp/sources.list
 sudo apt update
 sudo apt upgrade
 sudo apt autoremove
-
-# Fix Linux user for WSL export/import
-sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
-exit
 ```
 
 ## Prep
 ```bash
 # bash
 sudo apt -y install git wget curl
-git clone git@github.com:rugtres/r-debug.git
+git clone https://github.com/rugtres/r-debug.git
 cd r-debug
 chmod +x *.sh
 ./prepR.sh
+
+# Time to set up some other stuff like ssh...
 exit
 ```
 
 # Make this the 'build' distro for R
-Time to set up some other stuff like ssh...
 ```powershell
 # powershell
 wsl --terminate Debian
