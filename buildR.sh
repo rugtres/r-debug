@@ -9,6 +9,11 @@ R_NAME=""
 R_VERSION="4.2.2"       # default
 OPENBLASLIB="$INST_DIR/lib/libopenblas_omp.so"  # includes LAPACK
 
+# better these exists:
+mkdir -p $INST_DIR/bin
+mkdir -p $INST_DIR/lib
+mkdir -p $INST_DIR/share
+
 export CC="gcc"
 export CXX="g++"
 export FC="gfortran"
@@ -77,10 +82,14 @@ while getopts ":hct:i:oR:N:" option; do
          export CXX="clang++"
          ;;
       t) case $OPTARG in
-            release) OPTFLAGS="${OPTFLAGS} -g -O2";;
-            native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp";;
-            debug) OPTFLAGS="${OPTFLAGS} -g -O0";;
-            *) exit_error "Invalid build type";;
+            release) OPTFLAGS="${OPTFLAGS} -g -O2"
+            ;;
+            native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp"
+            ;;
+            debug) OPTFLAGS="${OPTFLAGS} -g -O0"
+            ;;
+            *) exit_error "Invalid build type"
+            ;;
          esac
          build_type=$OPTARG
          ;;
@@ -139,6 +148,9 @@ if [ ! -d ./tmp ]; then
     mkdir ./tmp
 fi
 cd ./tmp
+if [ -d "R-$R_VERSION" ]; then
+    rm -rf "R-$R_VERSION"
+fi
 wget $R_SRC -O "$R_VERSION.tar.gz"
 tar -xf "$R_VERSION.tar.gz"
 
@@ -176,5 +188,5 @@ if [ ! -z "$openblas" ]; then
 fi
 
 # add some packages
-# $INST_DIR/bin/R -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
-# $INST_DIR/bin/R -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+R -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
+R -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"

@@ -47,8 +47,7 @@ if [[ $( cat $PROFILE | grep -c "^# prepR.sh") -eq "0" ]]; then
     echo '# prepR.sh' >> $PROFILE
     echo 'export LC_ALL=en_US.UTF-8' >> $PROFILE
     echo 'export LANG=en_US.UTF-8' >> $PROFILE
-    echo '. $HOME/.bashrc.r-debug' >> $PROFILE 
-    echo 'PATH=$PATH:~/opt/bin' > $HOME/.bashrc.r_debug
+    echo 'PATH=~/opt/bin:$PATH' >> $PROFILE
 fi
 
 export LC_ALL=en_US.UTF-8

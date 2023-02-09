@@ -76,63 +76,33 @@ cd r-debug
 # ...
 # clean up
 rm -rf ./tmp
-```
+``` 
+## Select R version
 
-# Create a bunch of distros with single R build
-## Rdevel
-```powershell
-# powershell
-wsl --import Rdevel $HOME\wsl-images\Rdevel $HOME\wsl-exports\Rbuild.tar
-```
 ```bash
-# bash
-cd r-debug
-./buildR.sh -R devel -t release
+# check what's there
+ls ~/.opt
+> bin  include  lib  Rdebug  Rnative  Rrelease  Rval  share
+# check current
+ls ~/.opt/bin -al
+> ... R -> /home/hanno/opt/Rnative/bin/R
+> ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
+
+# switch
+./selectR.sh Rdebug
+# double-check
+ls ~/.opt/bin -al
+> total 8
+> ... R -> /home/hanno/opt/Rdebug/bin/R
+> ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
 ```
-## Rrelease
-```powershell
-# powershell
-wsl --import Rrelease $HOME\wsl-images\Rrelease $HOME\wsl-exports\Rbuild.tar
-```
+A similar symlink-jazz is applied to `~\.R\Makevars`.
+
+### Is 'Rnative' worth it?
 ```bash
-# bash
-cd r-debug
-./buildR.sh -R 4.2.2 -t release
+./selectR.sh Rnative
+Rscript R-benchmark-25.R
 ```
-## Rdebug
-```powershell
-# powershell
-wsl --import Rdebug $HOME\wsl-images\Rdebug $HOME\wsl-exports\Rbuild.tar
-```
-```bash
-# bash
-cd r-debug
-./buildR.sh -R 4.2.2 -t debug
-```
-## Rvalgrind
-```powershell
-# powershell
-wsl --import Rval $HOME\wsl-images\Rval $HOME\wsl-exports\Rbuild.tar
-```
-```bash
-# bash
-cd r-debug
-./buildR.sh -R 4.2.2 -t debug -i valgrind
-```
-## R native (devel) linked against OpenBLAS & openmp
-Note: clang build fails<br>
-```powershell
-# powershell
-wsl --import Rnative $HOME\wsl-images\Rnative $HOME\wsl-exports\Rbuild.tar
-```
-```bash
-# bash
-cd r-debug
-./buildOpenBLAS.sh
-./buildR.sh -R devel -t native -o
-```
-### Worth it?
-### -R devel -t native -o
 ```
    R Benchmark 2.5
    ===============
@@ -174,7 +144,10 @@ Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.140708999368685
                       --- End of test ---
 ```
 
-### -R devel -t release
+```bash
+./selectR.sh Rrelease
+Rscript R-benchmark-25.R
+```
 ```
    R Benchmark 2.5
    ===============
@@ -215,3 +188,21 @@ Total time for all 15 tests_________________________ (sec):  25.472
 Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.574639959543244
                       --- End of test ---
 ```
+
+# rstudio-server
+
+## Install w/o R - we have that ;)
+```bash
+cd r-debug
+./installRserver.sh
+```
+## Start rstudio-rserver
+First, start rstudio-server: `sudo rstudio-server start`<br>
+Next, open your browser and navigate to: `127.0.0.1:8787`<br>
+Enter your Linux-credentials...<br>
+
+## Stop/restart/kill
+To stop rstudio-server use: `sudo rstudio-server stop`<br>
+Went south? Use: `sudo rstudio-server restart`<br>
+Reached Antarctica? Use: `sudo rstudio-server kill`<br>
+
