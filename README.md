@@ -99,51 +99,8 @@ ls ~/.opt/bin -al
 A similar symlink-jazz is applied to `~\.R\Makevars`.
 
 ### Is 'Rnative' worth it?
-```bash
-./selectR.sh Rnative
-Rscript R-benchmark-25.R
-```
-```
-   R Benchmark 2.5
-   ===============
-Number of times each test is run__________________________:  3
-
-   I. Matrix calculation
-   ---------------------
-Creation, transp., deformation of a 2500x2500 matrix (sec):  0.382666666666667
-2400x2400 normal distributed random matrix ^1000____ (sec):  0.147666666666667
-Sorting of 7,000,000 random values__________________ (sec):  0.500666666666667
-2800x2800 cross-product matrix (b = a' * a)_________ (sec):  0.0869999999999997
-Linear regr. over a 3000x3000 matrix (c = a \ b')___ (sec):  0.0943333333333332
-                      --------------------------------------------
-                 Trimmed geom. mean (2 extremes eliminated):  0.174685193471483
-
-   II. Matrix functions
-   --------------------
-FFT over 2,400,000 random values____________________ (sec):  0.162333333333333
-Eigenvalues of a 640x640 random matrix______________ (sec):  0.36
-Determinant of a 2500x2500 random matrix____________ (sec):  0.102666666666667
-Cholesky decomposition of a 3000x3000 matrix________ (sec):  0.0923333333333337
-Inverse of a 1600x1600 random matrix________________ (sec):  0.112666666666667
-                      --------------------------------------------
-                Trimmed geom. mean (2 extremes eliminated):  0.123370371150351
-
-   III. Programmation
-   ------------------
-3,500,000 Fibonacci numbers calculation (vector calc)(sec):  0.145
-Creation of a 3000x3000 Hilbert matrix (matrix calc) (sec):  0.117
-Grand common divisors of 400,000 pairs (recursion)__ (sec):  0.127333333333335
-Creation of a 500x500 Toeplitz matrix (loops)_______ (sec):  0.0280000000000011
-Escoufier's method on a 45x45 matrix (mixed)________ (sec):  0.172999999999998
-                      --------------------------------------------
-                Trimmed geom. mean (2 extremes eliminated):  0.129270270444724
-
-
-Total time for all 15 tests_________________________ (sec):  2.63266666666667
-Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.140708999368685
-                      --- End of test ---
-```
-
+Spoiler: not for everything but...<br>
+Let's check [R-nenchmark-25](https://mac.r-project.org/benchmarks/R-benchmark-25.R).
 ```bash
 ./selectR.sh Rrelease
 Rscript R-benchmark-25.R
@@ -189,14 +146,59 @@ Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.574639959543244
                       --- End of test ---
 ```
 
+```bash
+./selectR.sh Rnative
+Rscript R-benchmark-25.R
+```
+```
+   R Benchmark 2.5
+   ===============
+Number of times each test is run__________________________:  3
+
+   I. Matrix calculation
+   ---------------------
+Creation, transp., deformation of a 2500x2500 matrix (sec):  0.382666666666667
+2400x2400 normal distributed random matrix ^1000____ (sec):  0.147666666666667
+Sorting of 7,000,000 random values__________________ (sec):  0.500666666666667
+2800x2800 cross-product matrix (b = a' * a)_________ (sec):  0.0869999999999997
+Linear regr. over a 3000x3000 matrix (c = a \ b')___ (sec):  0.0943333333333332
+                      --------------------------------------------
+                 Trimmed geom. mean (2 extremes eliminated):  0.174685193471483
+
+   II. Matrix functions
+   --------------------
+FFT over 2,400,000 random values____________________ (sec):  0.162333333333333
+Eigenvalues of a 640x640 random matrix______________ (sec):  0.36
+Determinant of a 2500x2500 random matrix____________ (sec):  0.102666666666667
+Cholesky decomposition of a 3000x3000 matrix________ (sec):  0.0923333333333337
+Inverse of a 1600x1600 random matrix________________ (sec):  0.112666666666667
+                      --------------------------------------------
+                Trimmed geom. mean (2 extremes eliminated):  0.123370371150351
+
+   III. Programmation
+   ------------------
+3,500,000 Fibonacci numbers calculation (vector calc)(sec):  0.145
+Creation of a 3000x3000 Hilbert matrix (matrix calc) (sec):  0.117
+Grand common divisors of 400,000 pairs (recursion)__ (sec):  0.127333333333335
+Creation of a 500x500 Toeplitz matrix (loops)_______ (sec):  0.0280000000000011
+Escoufier's method on a 45x45 matrix (mixed)________ (sec):  0.172999999999998
+                      --------------------------------------------
+                Trimmed geom. mean (2 extremes eliminated):  0.129270270444724
+
+
+Total time for all 15 tests_________________________ (sec):  2.63266666666667
+Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.140708999368685
+                      --- End of test ---
+```
+
 # rstudio-server
 
-## Install w/o R - we have that ;)
+## Install w/o R - we have that already ;)
 ```bash
 cd r-debug
 ./installRserver.sh
 ```
-## Start rstudio-rserver
+## RStudio the rstudio-rserver way
 First, start rstudio-server: `sudo rstudio-server start`<br>
 Next, open your browser and navigate to: `127.0.0.1:8787`<br>
 Enter your Linux-credentials...<br>
@@ -204,5 +206,11 @@ Enter your Linux-credentials...<br>
 ## Stop/restart/kill
 To stop rstudio-server use: `sudo rstudio-server stop`<br>
 Went south? Use: `sudo rstudio-server restart`<br>
-Reached Antarctica? Use: `sudo rstudio-server kill`<br>
+Reached Antarctica? Use: `sudo rstudio-server kill-all`<br>
+
+## Get rid of it
+```bash
+sudo dpgk -r rstudio-server
+sudo apt autoremove
+```
 
