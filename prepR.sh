@@ -55,6 +55,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 $SUDO dpkg-reconfigure locales
 
+mkdir -p $HOME/opt/bin
+mkdir -p $HOME/opt/lib
+mkdir -p $HOME/opt/share
+
+
 ## set links in ~/.local/bin
 #if [ ! -d "$HOME/.local/bin" ] ; then
 #    mkdir "$HOME/.local/bin"

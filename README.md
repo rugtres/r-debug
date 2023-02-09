@@ -58,7 +58,27 @@ wsl --export Debian $HOME\wsl-exports\Rbuild.tar
 wsl --unregister Debian
 ```
 
-# Create a bunch of R distros
+# Create a distro with multiple R builds
+```powershell
+# powershell
+wsl --import Rmulti $HOME\wsl-images\Rmulti $HOME\wsl-exports\Rbuild.tar
+wsl -d Rmulti
+```
+```bash
+# bash
+cd r-debug
+./buildR.sh -N Rrelease -t release
+./buildR.sh -N Rdebug -t debug
+./buildR.sh -N Rdevel -R devel -t release
+./buildR.sh -N Rval -t debug -i valgrind
+./buildOpenBLAS.sh
+./buildR.sh -N Rnative -R devel -t native -o
+# ...
+# clean up
+rm -rf ./tmp
+```
+
+# Create a bunch of distros with single R build
 ## Rdevel
 ```powershell
 # powershell
