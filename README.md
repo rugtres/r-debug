@@ -214,3 +214,6 @@ sudo dpgk -r rstudio-server
 sudo apt autoremove
 ```
 
+# vscode
+
+ Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side
