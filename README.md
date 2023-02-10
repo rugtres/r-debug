@@ -216,4 +216,12 @@ sudo apt autoremove
 
 # vscode
 
- Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side
+ Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side.<br>
+ 
+ ```bash
+ # bash
+ cd my_awesome_package
+ code .
+ ```
+Install `E Extension for Visual Studio Code`
+
