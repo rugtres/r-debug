@@ -62,10 +62,14 @@ wsl --unregister Debian
 ```powershell
 # powershell
 wsl --import Rmulti $HOME\wsl-images\Rmulti $HOME\wsl-exports\Rbuild.tar
-wsl -d Rmulti
+wsl -d Rmulti -u <Linux user>
 ```
 ```bash
 # bash
+# Fix Linux user for WSL export/import (once again)
+sudo rm /etc/wsl.conf
+sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
+
 cd r-debug
 ./buildR.sh -N Rrelease -t release
 ./buildR.sh -N Rdebug -t debug
@@ -79,7 +83,6 @@ rm -rf ./tmp
 ``` 
 ## Select R version
 
-```bash
 # check what's there
 ls ~/.opt
 > bin  include  lib  Rdebug  Rnative  Rrelease  Rval  share
