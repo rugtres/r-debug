@@ -190,3 +190,4 @@ fi
 # add some packages
 R -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
 R -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+R -e "install.packages(c('jsonlite', 'languageserver'), repos='${R_MIRROR}')"

@@ -10,7 +10,7 @@ exit
 ```
 ```powershell
 # powershell
-wsl -d Debian
+wsl -d Debian -u <Linux user>
 ```
 ```bash
 # bash

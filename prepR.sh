@@ -21,7 +21,8 @@ $SUDO apt -y install \
     build-essential \
     gcc$GCCVER gfortran$GCCVER gdb \
     clang$CLANGVER lldb$CLANGVER libomp$CLANGVER-dev \
-    valgrind-dbg
+    valgrind-dbg \
+    cmake
 
 $SUDO update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc$GCCVER 12
 $SUDO update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++$GCCVER 12
