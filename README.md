@@ -225,4 +225,3 @@ sudo apt autoremove
  ```
 Install the `R extension for visual studio code`<br>
 
-
