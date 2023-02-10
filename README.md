@@ -223,4 +223,6 @@ sudo apt autoremove
  cd my_awesome_package
  code .
  ```
+Install the `R extension for visual studio code`<br>
+
 
