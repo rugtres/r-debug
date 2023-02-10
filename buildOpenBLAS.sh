@@ -14,7 +14,7 @@ if [ ! -d ./tmp ]; then
 fi
 cd ./tmp
 if [ ! -d ./OpenBLAS ]; then
-    git clone --branch develop git@github.com:xianyi/OpenBLAS.git
+    git clone --branch develop https://github.com/xianyi/OpenBLAS.git
     cd OpenBLAS
 else
     cd OpenBLAS

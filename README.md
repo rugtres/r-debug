@@ -53,7 +53,7 @@ exit
 wsl --terminate Debian
 # export as a template and `rename`...
 mkdir $HOME\wsl-exports
-mkdir $HOME\wsl-rootfs
+mkdir $HOME\wsl-images
 wsl --export Debian $HOME\wsl-exports\Rbuild.tar
 wsl --unregister Debian
 ```
@@ -226,5 +226,5 @@ sudo apt autoremove
  cd my_awesome_package
  code .
  ```
-Install `E Extension for Visual Studio Code`
+Install the `R extension for visual studio code`<br>
 
