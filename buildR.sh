@@ -188,6 +188,7 @@ if [ ! -z "$openblas" ]; then
 fi
 
 # add some packages
-R -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
-R -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
-R -e "install.packages(c('jsonlite', 'languageserver'), repos='${R_MIRROR}')"
+Rscript -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
+Rscript -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+Rscript -e "install.packages(c('jsonlite', 'languageserver'), repos='${R_MIRROR}')"
+Rscript -e "library("devtools"); install_github('ManuelHentschel/vscDebugger')"

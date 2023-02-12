@@ -14,9 +14,6 @@ wsl -d Debian -u <Linux user>
 ```
 ```bash
 # bash
-# Fix Linux user for WSL export/import
-sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
-
 sudo nano /etc/atp/sources.list
 # replace 'bullseye' with 'bookworm':
 - deb http://deb.debian.org/debian bulleye main
@@ -66,7 +63,7 @@ wsl -d Rmulti -u <Linux user>
 ```
 ```bash
 # bash
-# Fix Linux user for WSL export/import (once again)
+# Fix Linux default user after WSL import
 sudo rm /etc/wsl.conf
 sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
 
@@ -83,18 +80,41 @@ rm -rf ./tmp
 ``` 
 ## Select R version
 
+```bash
 # check what's there
-ls ~/.opt
-> bin  include  lib  Rdebug  Rnative  Rrelease  Rval  share
-# check current
-ls ~/.opt/bin -al
-> ... R -> /home/hanno/opt/Rnative/bin/R
-> ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
-
+tree -L ~/opt
+```
+```
+/home/hanno/opt
+├── bin
+├── include
+├── lib
+├── Rdebug
+├── Rdevel
+├── Rnative
+├── Rrelease
+├── Rval
+└── share
+```
+```bash
+# check current R install: follow the symlinks in ~/opt/bin
+ls ~/opt/bin -l
+```
+```
+lrwxrwxrwx  ... R -> /home/hanno/opt/Rnative/bin/R
+lrwxrwxrwx  ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
+```
+```bash
 # switch
 ./selectR.sh Rdebug
 # double-check
 ls ~/.opt/bin -al
+```
+```
+lrwxrwxrwx  ... R -> /home/hanno/opt/Rnative/bin/R
+lrwxrwxrwx  ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
+```
+```bash
 > total 8
 > ... R -> /home/hanno/opt/Rdebug/bin/R
 > ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
@@ -103,7 +123,7 @@ A similar symlink-jazz is applied to `~\.R\Makevars`.
 
 ### Is 'Rnative' worth it?
 Spoiler: not for everything but...<br>
-Let's check [R-nenchmark-25](https://mac.r-project.org/benchmarks/R-benchmark-25.R).
+Let's check [R-benchmark-25](https://mac.r-project.org/benchmarks/R-benchmark-25.R).
 ```bash
 ./selectR.sh Rrelease
 Rscript R-benchmark-25.R

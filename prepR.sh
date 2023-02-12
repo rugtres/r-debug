@@ -17,7 +17,7 @@ fi
 
 # Build chains
 $SUDO apt -y install \
-    git rsync wget curl \
+    git rsync wget curl tree \
     build-essential \
     gcc$GCCVER gfortran$GCCVER gdb \
     clang$CLANGVER lldb$CLANGVER libomp$CLANGVER-dev \
@@ -55,14 +55,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 $SUDO dpkg-reconfigure locales
 
+# create root system in ~/opt
 mkdir -p $HOME/opt/bin
 mkdir -p $HOME/opt/lib
 mkdir -p $HOME/opt/share
-
-
-## set links in ~/.local/bin
-#if [ ! -d "$HOME/.local/bin" ] ; then
-#    mkdir "$HOME/.local/bin"
-#fi
-#ln -s ~/R-devel/bin/R ~/.local/bin/R
-#ln -s ~/R-devel/bin/Rscript ~/.local/bin/Rscript
