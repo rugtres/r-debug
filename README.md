@@ -241,7 +241,7 @@ sudo apt autoremove
 
  Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side.<br>
 
-Before we can start, we need to install some required packages on the R side and some extensions on the vscode side. The `buildR.sh` script has already installed the R packages:<br>
+Before we can start, we need to install some required packages on the R side and some extensions on the vscode side. The `buildR.sh` script already installed the R packages:<br>
 
 Editing: https://github.com/REditorSupport/languageserver<br>
 R-debugging: https://github.com/ManuelHentschel/vscDebugger<br>
