@@ -144,11 +144,12 @@ echo "$FC: $FCFLAGS"
 echo "configure: $CONFIG $OPTCONFIG"
 
 # pull source tree into ./tmp/r-source
-if [ ! -d ./tmp ]; then
-    mkdir ./tmp
+if [ ! -d ./.tmp ]; then
+    mkdir ./.tmp
 fi
-cd ./tmp
+cd ./.tmp
 if [ -d "R-$R_VERSION" ]; then
+    # clobber old build
     rm -rf "R-$R_VERSION"
 fi
 wget $R_SRC -O "$R_VERSION.tar.gz"
@@ -157,7 +158,11 @@ tar -xf "$R_VERSION.tar.gz"
 cd "R-$R_VERSION"
 ./configure --prefix=$INST_DIR $CONFIG $OPTCONFIG
 # make clean
-make --jobs=$(nproc) 
+make --jobs=$(nproc)
+if [ -d $INST_DIR ]; then
+    # clobber old install
+    rm -rf $INST_DIR
+fi
 make install
 
 # Create $HOME/.R/xxxx/Makevars
@@ -187,8 +192,16 @@ if [ ! -z "$openblas" ]; then
     ln -sf ${OPENBLASLIB} ${RLAPACKLIB}
 fi
 
-# add some packages
-Rscript -e "install.packages(c('BH' 'R6', 'Rcpp'), repos='${R_MIRROR}')"
-Rscript -e "install.packages(c('devtools', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
-Rscript -e "install.packages(c('jsonlite', 'languageserver'), repos='${R_MIRROR}')"
-Rscript -e "library("devtools"); install_github('ManuelHentschel/vscDebugger')"
+# add some 'common' packages
+Rscript -e "install.packages(c('BH' 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
+Rscript -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+
+# add vscode support packages
+# pull from github to get the newest versions
+RVSCODE="\
+library('remotes');\
+remotes::install_github('REditorSupport/languageserver');\
+remotes::install_github('ManuelHentschel/vscDebugger');\
+remotes::install_github('nx10/httpgd');\
+"
+Rscript -e $RVSCODE

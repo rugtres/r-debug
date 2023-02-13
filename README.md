@@ -76,7 +76,7 @@ cd r-debug
 ./buildR.sh -N Rnative -R devel -t native -o
 # ...
 # clean up
-rm -rf ./tmp
+rm -rf ./.tmp
 ``` 
 ## Select R version
 
@@ -240,10 +240,25 @@ sudo apt autoremove
 # vscode
 
  Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side.<br>
- 
+
+Before we can start, we need to install some required packages on the R side and some extensions on the vscode side. The `buildR.sh` script has already installed the R packages:<br>
+
+Editing: https://github.com/REditorSupport/languageserver<br>
+R-debugging: https://github.com/ManuelHentschel/vscDebugger<br>
+Plotting: https://github.com/nx10/httpgd
+
+To get the vscode-extensions, start vscode
  ```bash
  # bash
- cd my_awesome_package
  code .
  ```
-Install the `R extension for visual studio code`<br>
+Open the 'extensions' panel (`CTRL+SHIFT+X`) and install:<br>
+`R extension for visual studio code`<br>
+`R debugger`<br>
+Close vscode.<br>
+
+### Troubleshooting vscode settings
+You can find two vscode-related directories in your home-directory:<br>
+`~/.vscode-R`<br>
+`~/.vscode-server`<br>
+If we somehow manage to ill-configure our vscode-settings, *delete* those two and re-install the extensions.
