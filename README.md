@@ -14,7 +14,7 @@ wsl -d Debian -u <Linux user>
 ```
 ```bash
 # bash
-sudo nano /etc/atp/sources.list
+sudo nano /etc/apt/sources.list
 # replace 'bullseye' with 'bookworm':
 - deb http://deb.debian.org/debian bulleye main
 - deb http://deb.debian.org/debian bulleye-updates main
@@ -67,7 +67,7 @@ wsl -d Rmulti -u <Linux user>
 sudo rm /etc/wsl.conf
 sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
 
-cd r-debug
+cd $HOME/r-debug
 ./buildR.sh -N Rrelease -t release
 ./buildR.sh -N Rdebug -t debug
 ./buildR.sh -N Rdevel -R devel -t release
