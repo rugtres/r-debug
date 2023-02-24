@@ -99,25 +99,20 @@ tree -L 1 ~/opt
 ```bash
 # check current R install: follow the symlinks in ~/opt/bin
 ls ~/opt/bin -l
-```
-```
-lrwxrwxrwx  ... R -> /home/hanno/opt/Rnative/bin/R
-lrwxrwxrwx  ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
+lrwxrwxrwx ... R -> /home/hanno/opt/Rnative/bin/R
+lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rnative/lib/R/library/
+lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rnative/
+lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rnative
 ```
 ```bash
 # switch
 ./selectR.sh Rdebug
 # double-check
 ls ~/.opt/bin -al
-```
-```
-lrwxrwxrwx  ... R -> /home/hanno/opt/Rnative/bin/R
-lrwxrwxrwx  ... Rscript -> /home/hanno/opt/Rnative/bin/Rscript
-```
-```bash
-> total 8
-> ... R -> /home/hanno/opt/Rdebug/bin/R
-> ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
+lrwxrwxrwx ... R -> /home/hanno/opt/Rdebug/bin/R
+lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rdebug/lib/R/library/
+lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rdebug/
+lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
 ```
 A similar symlink-jazz is applied to `~\.R\Makevars`.
 
@@ -256,6 +251,7 @@ Open the 'extensions' panel (`CTRL+SHIFT+X`) and install:
 
 * [R debugger](https://marketplace.visualstudio.com/items?itemName=RDebugger.r-debugger)
 * [R extension for visual studio code](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r)
+* [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 
 Close vscode.<br>
 

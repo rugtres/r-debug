@@ -4,6 +4,8 @@
 # Hanno 2023
 
 set -e
+cd $(dirname -- ${0})
+
 
 if [ ! -d ./tmp ]; then
     mkdir ./tmp

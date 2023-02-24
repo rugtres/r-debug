@@ -7,7 +7,7 @@ INST_DIR="$HOME/opt"
 
 set -e
 if [ -z $1 ]; then
-    echo usage: ./select.sh Name
+    echo usage: select.sh Name
     exit 1
 fi
 PREFIX="$INST_DIR/$1"
@@ -20,3 +20,7 @@ fi
 ln -sf ${HOME}/.R/${1}/Makevars ${HOME}/.R/Makevars
 ln -sf ${PREFIX}/bin/R ${INST_DIR}/bin/R
 ln -sf ${PREFIX}/bin/Rscript ${INST_DIR}/bin/Rscript
+rm -f ${INST_DIR}/bin/Rroot
+ln -sf ${PREFIX}/ ${INST_DIR}/bin/Rroot
+rm -f ${INST_DIR}/bin/Rlibrary
+ln -sf ${PREFIX}/lib/R/library/ ${INST_DIR}/bin/Rlibrary

@@ -3,6 +3,8 @@
 # filename: buildR.sh
 # author: @Hanno
 
+cd $(dirname -- ${0})
+
 PREFIX="$HOME/opt"
 INST_DIR=$PREFIX
 R_NAME=""
@@ -176,9 +178,8 @@ echo CFLAGS= ${CFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
 echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
 ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 
-# symlink R binaries
-ln -sf "$INST_DIR/bin/R" "$PREFIX/bin/R"
-ln -sf "$INST_DIR/bin/Rscript" "$PREFIX/bin/Rscript"
+# symlinks
+bash -e ../selectR.sh "${R_NAME}"
 
 # OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"

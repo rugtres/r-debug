@@ -4,7 +4,7 @@
 #
 # Hanno 2023
 
-set -a
+cd $(dirname -- ${0})
 
 PROFILE="$HOME/.bashrc"
 INST_DIR="$HOME/opt"
