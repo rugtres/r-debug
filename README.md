@@ -65,7 +65,7 @@ wsl -d Rmulti -u <Linux user>
 # bash
 # Fix Linux default user after WSL import
 sudo rm /etc/wsl.conf
-sudo bash -c 'echo -e "[user]\ndefault=$USER" >> /etc/wsl.conf'
+sudo bash -c 'echo -e "[user]\ndefault=<linux user>" >> /etc/wsl.conf'
 
 cd r-debug
 ./buildR.sh -N Rrelease -t release
