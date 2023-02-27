@@ -179,7 +179,7 @@ echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
 ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 
 # symlinks
-bash -e ../selectR.sh "${R_NAME}"
+bash -e ../..selectR.sh "${R_NAME}"
 
 # OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
