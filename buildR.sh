@@ -3,8 +3,7 @@
 # filename: buildR.sh
 # author: @Hanno
 
-cd $(dirname -- ${0})
-
+shdir=$(pwd)
 PREFIX="$HOME/opt"
 INST_DIR=$PREFIX
 R_NAME=""
@@ -50,6 +49,12 @@ Usage: $0 -N name -R <R version> -S <suffix> [-chtio]
 -R      R version, "devel" or full version e.g. 4.2.1, defaults to ${R_VERSION}
 -S      Suffix
 EOF
+}
+
+
+get_abs_filename() {
+  # $1 : relative filename
+  echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 }
 
 
@@ -158,6 +163,7 @@ wget $R_SRC -O "$R_VERSION.tar.gz"
 tar -xf "$R_VERSION.tar.gz"
 
 cd "R-$R_VERSION"
+
 ./configure --prefix=$INST_DIR $CONFIG $OPTCONFIG
 # make clean
 make --jobs=$(nproc)
@@ -179,7 +185,9 @@ echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
 ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 
 # symlinks
-bash -e ../..selectR.sh "${R_NAME}"
+cd $shdir
+bash -e "${shdir}/selectR.sh" ${R_NAME}
+
 
 # OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
