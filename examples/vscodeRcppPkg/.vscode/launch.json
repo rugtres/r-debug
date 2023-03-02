@@ -8,7 +8,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch devtools::test()",
+      "name": "(Linux gbd) devtools::test()",
       "type": "cppdbg",
       "request": "launch",
       // The binary, not the script
@@ -32,7 +32,8 @@
         }
        ],
       // 'R' is a script that sets a ton of environment variables
-      // required by the R binary. Let's create 'envFile':
+      // required by the R binary. This task emulates that part of
+      // the R script:
       "preLaunchTask": "genenv"
     }
   ]

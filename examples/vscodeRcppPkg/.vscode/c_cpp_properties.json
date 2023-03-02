@@ -5,7 +5,7 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Linux gdb",
             "includePath": [
                 // recurse into workspace, picks up ./src/ and ./inst/include/ 
                 "${workspaceFolder}/**",
@@ -16,7 +16,9 @@
                 // boost: "${env:HOME}/opt/bin/Rlibrary/BH/include"
             ],
             "defines": [],
+            // absolute path to compiler
             "compilerPath": "/usr/bin/gcc",
+            // "compilerPath": "/usr/bin/clang"
             "cStandard": "c11",
             // should match [[Rcpp::plugins(cpp17)]]
             "cppStandard": "c++17"
