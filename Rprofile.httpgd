@@ -1,3 +1,5 @@
+# copied to ~/.Rprofile iby prepR.sh
+
 # suggested by httpgd
 if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
   if ("httpgd" %in% .packages(all.available = TRUE)) {
@@ -8,3 +10,6 @@ if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
     })
   }
 }
+
+# keep sources for debugging (sic)
+keep.source.pkgs = TRUE
