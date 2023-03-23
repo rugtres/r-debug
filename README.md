@@ -4,14 +4,17 @@
 # powershell
 wsl --install -d Debian
 ```
+
 ```bash
 # bash
 exit
 ```
+
 ```powershell
 # powershell
 wsl -d Debian -u <Linux user>
 ```
+
 ```bash
 # bash
 sudo nano /etc/atp/sources.list
@@ -32,6 +35,7 @@ sudo apt autoremove
 ```
 
 ## Prep
+
 ```bash
 # bash
 sudo apt -y install git wget curl
@@ -45,6 +49,7 @@ exit
 ```
 
 # Make this the 'build' distro for R
+
 ```powershell
 # powershell
 wsl --terminate Debian
@@ -56,11 +61,13 @@ wsl --unregister Debian
 ```
 
 # Create a distro with multiple R builds
+
 ```powershell
 # powershell
 wsl --import Rmulti $HOME\wsl-images\Rmulti $HOME\wsl-exports\Rbuild.tar
 wsl -d Rmulti -u <Linux user>
 ```
+
 ```bash
 # bash
 # Fix Linux default user after WSL import
@@ -75,16 +82,16 @@ cd r-debug
 ./buildOpenBLAS.sh
 ./buildR.sh -N Rnative -R devel -t native -o
 # ...
-# clean up
-rm -rf ./.tmp
-``` 
-## Select R version
+```
+
+You can find the R versions in `~\opt`:
 
 ```bash
 # check what's there
 tree -L 1 ~/opt
 ```
-```
+
+```text
 /home/hanno/opt
 ├── bin
 ├── include
@@ -96,34 +103,52 @@ tree -L 1 ~/opt
 ├── Rval
 └── share
 ```
+
+Note: Want to debug R itself? Keep the `~\r-debug\build\<Rname>\src` folder(s) that where created
+by `./buildR.sh`.<br>
+This will enable the debugger (gdb) and vscode to lookup the source
+files.<br>
+Otherwise, you can savely remove `~\r-debug\build\`.
+
+## Select R version
+
+To switch between installed R builds, use the `./selectR.sh` script:
+
 ```bash
-# check current R install: follow the symlinks in ~/opt/bin
+./selectR.sh Rdebug
+```
+
+This will replace some *symlinks* in `~\opt\bin\`:
+
+```bash
 ls ~/opt/bin -l
 lrwxrwxrwx ... R -> /home/hanno/opt/Rnative/bin/R
 lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rnative/lib/R/library/
 lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rnative/
 lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rnative
 ```
-```bash
-# switch
-./selectR.sh Rdebug
-# double-check
-ls ~/.opt/bin -al
-lrwxrwxrwx ... R -> /home/hanno/opt/Rdebug/bin/R
-lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rdebug/lib/R/library/
-lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rdebug/
-lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
-```
+
 A similar symlink-jazz is applied to `~\.R\Makevars`.
 
-### Is 'Rnative' worth it?
+## Ceck selected R version
+
+```text
+./whichR.sh
+Selected R version is 'Rdebug' in:
+/home/<user>/opt/Rdebug/
+```
+
+### Is 'Rnative + OpenBLAS'worth it?
+
 Spoiler: not for everything but...<br>
-Let's check [R-benchmark-25](https://mac.r-project.org/benchmarks/R-benchmark-25.R).
+Let's run [R-benchmark-25](https://mac.r-project.org/benchmarks/R-benchmark-25.R).
+
 ```bash
 ./selectR.sh Rrelease
 Rscript R-benchmark-25.R
 ```
-```
+
+```text
    R Benchmark 2.5
    ===============
 Number of times each test is run__________________________:  3
@@ -168,7 +193,8 @@ Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.574639959543244
 ./selectR.sh Rnative
 Rscript R-benchmark-25.R
 ```
-```
+
+```text
    R Benchmark 2.5
    ===============
 Number of times each test is run__________________________:  3
@@ -212,21 +238,26 @@ Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.140708999368685
 # rstudio-server
 
 ## Install w/o R - we have that already ;)
+
 ```bash
 cd r-debug
 ./installRserver.sh
 ```
+
 ## RStudio the rstudio-rserver way
+
 First, start rstudio-server: `sudo rstudio-server start`<br>
 Next, open your browser and navigate to: `127.0.0.1:8787`<br>
 Enter your Linux-credentials...<br>
 
 ## Stop/restart/kill
+
 To stop rstudio-server use: `sudo rstudio-server stop`<br>
 Went south? Use: `sudo rstudio-server restart`<br>
 Reached Antarctica? Use: `sudo rstudio-server kill-all`<br>
 
 ## Get rid of it
+
 ```bash
 sudo dpgk -r rstudio-server
 sudo apt autoremove
@@ -243,19 +274,23 @@ Before we start, we need to some packages and extensions. The `buildR.sh` script
 * Plotting: https://github.com/nx10/httpgd
 
 To get the vscode-extensions, start vscode
+
  ```bash
  # bash
  code .
  ```
+
 Open the 'extensions' panel (`CTRL+SHIFT+X`) and install:
 
 * [R debugger](https://marketplace.visualstudio.com/items?itemName=RDebugger.r-debugger)
 * [R extension for visual studio code](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r)
-* [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+* [C/C++ Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
+* [Memory Viewer](https://marketplace.visualstudio.com/items?itemName=NateAGeek.memory-viewer)
 
 Close vscode.<br>
 
 ### Troubleshooting vscode settings
+
 You can find two vscode-related directories in your home-directory:<br>
 `~/.vscode-R`<br>
 `~/.vscode-server`<br>

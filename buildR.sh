@@ -5,6 +5,7 @@
 
 shdir=$(pwd)
 PREFIX="$HOME/opt"
+BUILD_DIR="${shdir}/build"
 INST_DIR=$PREFIX
 R_NAME=""
 R_VERSION="4.2.2"       # default
@@ -26,6 +27,7 @@ CFLAGS="-fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D
 CXXFLAGS="-fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -Wall"
 FCFLAGS="-fstack-protector-strong -Wall"
 OPTFLAGS=""
+OPTLDFLAGS=""
 
 CONFIG="LIBnn=lib --disable-nls --enable-BLAS-shlib --enable-R-shlib --enable-memory-profiling"
 OPTCONFIG=""
@@ -43,7 +45,7 @@ Usage: $0 -N name -R <R version> -S <suffix> [-chtio]
 -h      Display help
 -c      Use clang
 -t      Build type: debug|release|native
--i      Instrumentation: valgrind
+-i      Instrumentation: valgrind|profile
 -o      link against OpenBLAS
 -N      Name
 -R      R version, "devel" or full version e.g. 4.2.1, defaults to ${R_VERSION}
@@ -92,6 +94,7 @@ while getopts ":hct:i:oR:N:" option; do
             release) OPTFLAGS="${OPTFLAGS} -g -O2"
             ;;
             native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp"
+                    OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
             ;;
             debug) OPTFLAGS="${OPTFLAGS} -g -O0"
             ;;
@@ -101,8 +104,13 @@ while getopts ":hct:i:oR:N:" option; do
          build_type=$OPTARG
          ;;
       i) case $OPTARG in
-            valgrind) OPTCONFIG="-C --with-valgrind-instrumentation=2 --with-system-valgrind-headers";;
-            *) exit_error "Invalid instrumentation";;
+            valgrind) OPTCONFIG="-C --with-valgrind-instrumentation=2 --with-system-valgrind-headers"
+            ;;
+            profile) OPTFLAGS="${OPTFLAGS} -pg"
+                     OPTLDFLAGS=${OPTLDFLAGS} -pg
+            ;;
+            *) exit_error "Invalid instrumentation"
+            ;;
          esac
          inst_type=$OPTARG
          ;;
@@ -143,6 +151,7 @@ INST_DIR="${INST_DIR}/${R_NAME}"
 export CFLAGS="${CFLAGS} ${OPTFLAGS}"
 export CXXFLAGS="${CXXFLAGS} ${OPTFLAGS}"
 export FCFLAGS="${FCFLAGS} ${OPTFLAGS}"
+export LDFLAGS="${OPTLDFLAGS}"
 
 echo Bulding R with:
 echo "$CC: $CFLAGS"
@@ -150,19 +159,22 @@ echo "$CXX: $CXXFLAGS"
 echo "$FC: $FCFLAGS"
 echo "configure: $CONFIG $OPTCONFIG"
 
-# pull source tree into ./tmp/r-source
-if [ ! -d ./.tmp ]; then
-    mkdir ./.tmp
+# pull source tree into ./build/r-source
+if [ ! -d $BUILD_DIR ]; then
+    mkdir $BUILD_DIR
 fi
-cd ./.tmp
-if [ -d "R-$R_VERSION" ]; then
+cd $BUILD_DIR
+if [ -d "./$R_NAME" ]; then
     # clobber old build
-    rm -rf "R-$R_VERSION"
+    rm -rf "./$R_NAME"
 fi
 wget $R_SRC -O "$R_VERSION.tar.gz"
 tar -xf "$R_VERSION.tar.gz"
+rm "$R_VERSION.tar.gz"
 
-cd "R-$R_VERSION"
+# rename build directory
+mv "R-$R_VERSION" $R_NAME
+cd $R_NAME
 
 ./configure --prefix=$INST_DIR $CONFIG $OPTCONFIG
 # make clean
@@ -202,8 +214,8 @@ if [ ! -z "$openblas" ]; then
 fi
 
 # add some 'common' packages
-Rscript -e "install.packages(c('BH' 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
-Rscript -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+R -e "install.packages(c('BH', 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
+R -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
 
 # add vscode support packages
 # pull from github to get the newest versions
@@ -213,4 +225,4 @@ remotes::install_github('REditorSupport/languageserver');\
 remotes::install_github('ManuelHentschel/vscDebugger');\
 remotes::install_github('nx10/httpgd');\
 "
-Rscript -e $RVSCODE
+R -e $RVSCODE

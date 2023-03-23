@@ -1,4 +1,6 @@
 library(vscodeRcppPkg)
 
-sum <- rcpp_concat(c(1, 2, 3, 4), c(5, 6))
-print(sum)
+x <- 1:1000000
+for (i in 1:10000) {
+    sum <- rcpp_sum(x)
+}
