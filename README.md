@@ -1,4 +1,6 @@
-# Debian 12 (bookworm) WSL2
+# Debugging Rcpp
+
+## Debian 12 (bookworm) WSL2
 
 ```powershell
 # powershell
@@ -48,7 +50,7 @@ chmod +x *.sh
 exit
 ```
 
-# Make this the 'build' distro for R
+## Make this the 'build' distro for R
 
 ```powershell
 # powershell
@@ -60,7 +62,7 @@ wsl --export Debian $HOME\wsl-exports\Rbuild.tar
 wsl --unregister Debian
 ```
 
-# Create a distro with multiple R builds
+## Create a distro with multiple R builds
 
 ```powershell
 # powershell
@@ -235,35 +237,35 @@ Overall mean (sum of I, II and III trimmed means/3)_ (sec):  0.140708999368685
                       --- End of test ---
 ```
 
-# rstudio-server
+## rstudio-server
 
-## Install w/o R - we have that already ;)
+### Install w/o R - we have that already ;)
 
 ```bash
 cd r-debug
 ./installRserver.sh
 ```
 
-## RStudio the rstudio-rserver way
+### RStudio the rstudio-rserver way
 
 First, start rstudio-server: `sudo rstudio-server start`<br>
 Next, open your browser and navigate to: `127.0.0.1:8787`<br>
 Enter your Linux-credentials...<br>
 
-## Stop/restart/kill
+### Stop/restart/kill
 
 To stop rstudio-server use: `sudo rstudio-server stop`<br>
 Went south? Use: `sudo rstudio-server restart`<br>
 Reached Antarctica? Use: `sudo rstudio-server kill-all`<br>
 
-## Get rid of it
+### Get rid of it
 
 ```bash
 sudo dpgk -r rstudio-server
 sudo apt autoremove
 ```
 
-# vscode
+## vscode
 
 Install [Visual Studio Code](https://code.visualstudio.com/) on the Windows-side.<br>
 
@@ -295,3 +297,19 @@ You can find two vscode-related directories in your home-directory:<br>
 `~/.vscode-R`<br>
 `~/.vscode-server`<br>
 If we somehow manage to ill-configure our vscode-settings, *delete* those two and re-install the extensions.
+
+## VTUNE
+
+Intel's vtune profiler is part of [OneAPI](https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html)
+
+To install with dependencies, [run](./installOneAPI.sh):
+
+```bash
+sudo ./installOneAPI.sh
+```
+
+```bash
+. /opt/intel/oneapi/setvars.sh
+GDK_DPI_SCALE=1.5 vtune-gui
+```
+
