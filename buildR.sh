@@ -3,9 +3,9 @@
 # filename: buildR.sh
 # author: @Hanno
 
-shdir=$(pwd)
+SH_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PREFIX="$HOME/opt"
-BUILD_DIR="${shdir}/build"
+BUILD_DIR="${SH_DIR}/build"
 INST_DIR=$PREFIX
 R_NAME=""
 R_VERSION="4.2.2"       # default
@@ -197,8 +197,8 @@ echo CXXFLAGS=${CXXFLAGS} >> ${HOME}/.R/${R_NAME}/Makevars
 ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 
 # symlinks
-cd $shdir
-bash -e "${shdir}/selectR.sh" ${R_NAME}
+cd $SH_DIR
+bash -e "${SH_DIR}/selectR.sh" ${R_NAME}
 
 
 # OpenBLAS injection

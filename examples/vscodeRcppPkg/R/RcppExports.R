@@ -2,10 +2,24 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Simple sum
+#' @param msg
+#' @export
+rcpp_break <- function(msg) {
+    invisible(.Call(`_vscodeRcppPkg_rcpp_break`, msg))
+}
+
+#' Simple sum
 #' @param x a numeric vector
 #' @export
 rcpp_sum <- function(x) {
     .Call(`_vscodeRcppPkg_rcpp_sum`, x)
+}
+
+#' Simple mean
+#' @param x a numeric vector
+#' @export
+rcpp_mean <- function(x) {
+    .Call(`_vscodeRcppPkg_rcpp_mean`, x)
 }
 
 #' Concats two vectors

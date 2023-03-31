@@ -124,10 +124,11 @@ This will replace some *symlinks* in `~\opt\bin\`:
 
 ```bash
 ls ~/opt/bin -l
-lrwxrwxrwx ... R -> /home/hanno/opt/Rnative/bin/R
-lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rnative/lib/R/library/
-lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rnative/
-lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rnative
+lrwxrwxrwx ... R -> /home/hanno/opt/Rdebug/bin/R
+lrwxrwxrwx ... Rlibrary -> /home/hanno/opt/Rdebug/lib/R/library/
+lrwxrwxrwx ... Rroot -> /home/hanno/opt/Rdebug/
+lrwxrwxrwx ... Rscript -> /home/hanno/opt/Rdebug/bin/Rscript
+lrwxrwxrwx ... Rsrc -> /home/hanno/r-debug/build/src/
 ```
 
 A similar symlink-jazz is applied to `~\.R\Makevars`.

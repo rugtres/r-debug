@@ -3,6 +3,7 @@
 # R version selector
 # Hanno 2023
 
+SH_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 INST_DIR="$HOME/opt"
 
 set -e
@@ -24,3 +25,5 @@ rm -f ${INST_DIR}/bin/Rroot
 ln -sf ${PREFIX}/ ${INST_DIR}/bin/Rroot
 rm -f ${INST_DIR}/bin/Rlibrary
 ln -sf ${PREFIX}/lib/R/library/ ${INST_DIR}/bin/Rlibrary
+rm -f ${INST_DIR}/bin/Rsrc
+ln -sf ${SH_DIR}/build/$1/src/ ${INST_DIR}/bin/Rsrc

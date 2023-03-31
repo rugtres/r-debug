@@ -2,7 +2,18 @@
 
 #include <Rcpp.h>
 #include <vector>
+#include <numeric>
 using namespace Rcpp;
+
+
+//' Simple sum
+//' @param msg
+//' @export
+// [[Rcpp::export]]
+void rcpp_break(int msg) {
+  static int count = 0;
+  ++count;
+}
 
 
 //' Simple sum
@@ -12,9 +23,18 @@ using namespace Rcpp;
 double rcpp_sum(NumericVector x) {
   double sum = 0.0;
   for (auto val : x) {
-    sum += val;
+    sum += val + 1.0;
   }
   return sum;
+}
+
+//' Simple mean
+//' @param x a numeric vector
+//' @export
+// [[Rcpp::export]]
+double rcpp_mean(NumericVector x) {
+  auto sum = std::accumulate(x.begin(), x.end(), 0.0);
+  return sum / x.size();
 }
 
 //' Concats two vectors
