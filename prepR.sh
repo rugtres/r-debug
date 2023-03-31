@@ -47,7 +47,7 @@ $SUDO apt -y install \
     libpng-dev libtiff5-dev libjpeg-dev \
     default-jdk
 
-# bloat by some packages in circulation in tres
+# bloat by some packages in circulation in TRES
 $SUDO apt -y install \
     libpq-dev libudunits2-dev libgeos-dev libgdal-dev \
     unixodbc unixodbc-dev
