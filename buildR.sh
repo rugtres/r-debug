@@ -36,7 +36,7 @@ export R_BATCHSAVE="--no-save --no-restore"
 
 R_DAILY="https://stat.ethz.ch/R/daily/"         # daily r-devel
 R_BASE="https://cran.r-project.org/src/base/"   # official release
-R_MIRROR="https://cran.uni-muenster.de/"        # CRAN mirror
+R_MIRROR="http://cran.uni-muenster.de/"        # CRAN mirror
 
 
 usage() {
