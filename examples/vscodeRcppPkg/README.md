@@ -23,3 +23,13 @@ All the magic happens, as usual, inside `.vscode`:<br>
 
 On the debug panel (`Ctrl+Shift+D)`, you can find "`Launch devtools::test()`".<br>
 Set breakpoints (`F9`) in `rcpp_src.cpp`, click the `|>` button -- enjoy debugging!
+
+## Debugging R
+
+Source files for R could be find in
+
+```bash
+~/opt/bin/Rsrc/
+~/opt/bin/Rsrc/main
+```
+

@@ -26,4 +26,4 @@ ln -sf ${PREFIX}/ ${INST_DIR}/bin/Rroot
 rm -f ${INST_DIR}/bin/Rlibrary
 ln -sf ${PREFIX}/lib/R/library/ ${INST_DIR}/bin/Rlibrary
 rm -f ${INST_DIR}/bin/Rsrc
-ln -sf ${SH_DIR}/build/$1/src/ ${INST_DIR}/bin/Rsrc
+ln -sf ${SH_DIR}/build/${1}/src/ ${INST_DIR}/bin/Rsrc

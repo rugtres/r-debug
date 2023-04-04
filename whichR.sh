@@ -6,12 +6,14 @@
 
 set -e
 INST_DIR=~/opt/bin
-RVER=$(readlink "$INST_DIR/Rroot")
+R_ROOT=$(readlink "$INST_DIR/Rroot")
 
-if [[ ! -d "$RVER" ]]; then
-  echo "$RVER dosn't exists. Did you run buildR.sh?"
+if [[ ! -d "$R_ROOT" ]]; then
+  echo "$R_ROOT dosn't exists. Did you run buildR.sh?"
   exit 1
 fi
 
-echo "Selected R version is '$(basename -- $RVER)' in:"
-echo $RVER
+echo "Selected R version is '$(basename -- $R_ROOT)'":
+echo "Rroot -> ${R_ROOT}"
+echo "Rlibrary -> $(readlink ${INST_DIR}/Rlibrary)"
+echo "Rsrc -> $(readlink ${INST_DIR}/Rsrc)"
