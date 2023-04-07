@@ -20,6 +20,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// rcpp_any
+void rcpp_any(SEXP expr);
+RcppExport SEXP _vscodeRcppPkg_rcpp_any(SEXP exprSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type expr(exprSEXP);
+    rcpp_any(expr);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_sum
 double rcpp_sum(NumericVector x);
 RcppExport SEXP _vscodeRcppPkg_rcpp_sum(SEXP xSEXP) {
@@ -69,6 +79,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_vscodeRcppPkg_rcpp_break", (DL_FUNC) &_vscodeRcppPkg_rcpp_break, 1},
+    {"_vscodeRcppPkg_rcpp_any", (DL_FUNC) &_vscodeRcppPkg_rcpp_any, 1},
     {"_vscodeRcppPkg_rcpp_sum", (DL_FUNC) &_vscodeRcppPkg_rcpp_sum, 1},
     {"_vscodeRcppPkg_rcpp_mean", (DL_FUNC) &_vscodeRcppPkg_rcpp_mean, 1},
     {"_vscodeRcppPkg_rcpp_concat", (DL_FUNC) &_vscodeRcppPkg_rcpp_concat, 2},

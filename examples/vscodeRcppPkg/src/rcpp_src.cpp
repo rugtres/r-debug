@@ -6,13 +6,19 @@
 using namespace Rcpp;
 
 
-//' Simple sum
+//' Break me
 //' @param msg
 //' @export
 // [[Rcpp::export]]
 void rcpp_break(int msg) {
   static int count = 0;
   ++count;
+}
+
+
+// [[Rcpp::export]]
+void rcpp_any(SEXP expr) {
+  return;
 }
 
 

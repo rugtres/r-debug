@@ -1,18 +1,24 @@
-# kinda interesting source files:
-#
-# ~/opt/bin/Rsrc/main/summary.c (541)
-# ~/opt/bin/Rsrc/main/altclasses.c (500)
-
 library(vscodeRcppPkg)
 
-foo <- function(fun, x) {
-    s <- 0
-    for (i in 1:1000) {
-        rcpp_break(0)
-        s <- s + fun(x)
-    }
-    return(s)
+
+foo <- function(x, k = max(d)) {
+    d <- dim(x)
+    return(k + 1)
 }
-#x <- seq(from = 1, to = 100000)
-#s <- foo(mean, x)
-#print(s)
+
+x <- matrix(1:10, nrow = 5)
+print(foo(x))
+
+
+bar <- function(expr) {
+#    (expr)
+    return()
+}
+
+fu <- function(expr) {
+    bar(expr)
+    return()
+}
+
+y <- 1:10
+fu(y)
