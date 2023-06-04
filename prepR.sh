@@ -10,7 +10,7 @@ cd $(dirname -- ${0})
 PROFILE="$HOME/.bashrc"
 
 GCCVER=12
-CLANGVER=15
+CLANGVER=16
 
 SUDO=''
 if [[ $EUID -ne 0 ]]; then

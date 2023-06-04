@@ -20,16 +20,16 @@ wsl -d Debian -u <Linux user>
 ```bash
 # bash
 sudo nano /etc/atp/sources.list
-# replace 'bullseye' with 'bookworm':
+# replace 'bullseye' with 'bookworm' and add 'testing':
 - deb http://deb.debian.org/debian bulleye main
 - deb http://deb.debian.org/debian bulleye-updates main
 - deb http://security.debian.org/debian-security bulleye-security main
 - deb http://ftp.debian.org/debian bulleye-backports main
 
-+ deb http://deb.debian.org/debian bookworm main
-+ deb http://deb.debian.org/debian bookworm-updates main
++ deb http://deb.debian.org/debian bookworm main contrib non-free
++ deb http://deb.debian.org/debian bookworm-updates contrib non-free
 + deb http://security.debian.org/debian-security bookworm-security main
-+ deb http://ftp.debian.org/debian bookworm-backports main
++ deb http://ftp.debian.org/debian bookworm-backports main contrib non-free
 
 sudo apt update
 sudo apt upgrade
