@@ -32,6 +32,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// tbb_parallel_sleep
+void tbb_parallel_sleep(int N, int ms);
+RcppExport SEXP _RcppParallelNumThreads_tbb_parallel_sleep(SEXP NSEXP, SEXP msSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type ms(msSEXP);
+    tbb_parallel_sleep(N, ms);
+    return R_NilValue;
+END_RCPP
+}
 // parallelVectorSum
 double parallelVectorSum(NumericVector x);
 RcppExport SEXP _RcppParallelNumThreads_parallelVectorSum(SEXP xSEXP) {
@@ -47,6 +58,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_RcppParallelNumThreads_tbb_arena_parallelVectorSum", (DL_FUNC) &_RcppParallelNumThreads_tbb_arena_parallelVectorSum, 1},
     {"_RcppParallelNumThreads_tbb_global_control_parallelVectorSum", (DL_FUNC) &_RcppParallelNumThreads_tbb_global_control_parallelVectorSum, 1},
+    {"_RcppParallelNumThreads_tbb_parallel_sleep", (DL_FUNC) &_RcppParallelNumThreads_tbb_parallel_sleep, 2},
     {"_RcppParallelNumThreads_parallelVectorSum", (DL_FUNC) &_RcppParallelNumThreads_parallelVectorSum, 1},
     {NULL, NULL, 0}
 };

@@ -35,33 +35,11 @@ namespace {
 
 
 // [[Rcpp::export]]
-double tbb_arena_parallelVectorSum(NumericVector x) {
-  tbb::task_arena arena(get_rcpp_num_threads());
-  auto sum = 0.0;
-  arena.execute([&]() {
-    sum = tbb::parallel_reduce(tbb::blocked_range<int>(0,x.size()), 0.0,
-      [&](tbb::blocked_range<int> r, double running_total) {
-        for (int i=r.begin(); i<r.end(); ++i) {
-          running_total += x[i];
-        }
-        return running_total;
-      }, std::plus<double>() 
-    );
-  });
-  return sum;
-}
-
-
-// [[Rcpp::export]]
-double tbb_global_control_parallelVectorSum(NumericVector x) {
-  tbb::global_control _{tbb::global_control::max_allowed_parallelism, get_rcpp_num_threads()};
-  auto sum = tbb::parallel_reduce(tbb::blocked_range<int>(0,x.size()), 0.0,
-    [&](tbb::blocked_range<int> r, double running_total) {
-      for (auto i = r.begin(); i < r.end(); ++i) {
-        running_total += x[i];
+void tbb_parallel_sleep(int N, int ms) {
+    tbb::global_control _{tbb::global_control::max_allowed_parallelism, get_rcpp_num_threads()};
+    tbb::parallel_for(tbb::blocked_range<int>(0,N), [=](auto r) {
+      for (auto it = r.begin(); it != r.end(); ++it) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
       }
-      return running_total;
-    }, std::plus<double>()
-  );
-  return sum;
+    });
 }

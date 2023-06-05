@@ -9,6 +9,10 @@ tbb_global_control_parallelVectorSum <- function(x) {
     .Call(`_RcppParallelNumThreads_tbb_global_control_parallelVectorSum`, x)
 }
 
+tbb_parallel_sleep <- function(N, ms) {
+    invisible(.Call(`_RcppParallelNumThreads_tbb_parallel_sleep`, N, ms))
+}
+
 parallelVectorSum <- function(x) {
     .Call(`_RcppParallelNumThreads_parallelVectorSum`, x)
 }
