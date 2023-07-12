@@ -93,7 +93,7 @@ while getopts ":hct:i:oR:N:" option; do
       t) case $OPTARG in
             release) OPTFLAGS="${OPTFLAGS} -g -O2"
             ;;
-            native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp"
+            native) OPTFLAGS="${OPTFLAGS} -g -O3 -march=native -pthread -fopenmp"
                     OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
             ;;
             debug) OPTFLAGS="${OPTFLAGS} -g -O0"
