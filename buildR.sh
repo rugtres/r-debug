@@ -44,7 +44,7 @@ cat << EOF
 Usage: $0 -N name -R <R version> -S <suffix> [-chtio]
 -h      Display help
 -c      Use clang
--t      Build type: debug|release|native
+-t      Build type: debug|release|native|opt
 -i      Instrumentation: valgrind|profile
 -o      link against OpenBLAS
 -N      Name
@@ -84,7 +84,7 @@ while getopts ":hct:i:oR:N:" option; do
             exit_error "$OPENBLASLIB not found. Use buildOpenBLAS.sh to build it"
          fi
          openblas=1
-         OPTCONFIG=$OPTCONFIG --with-blas="$INST_DIR/opt/lib -lopenblas-omp" 
+         OPTCONFIG=$OPTCONFIG --with-blas="$INST_DIR/opt/lib -lopenblas-omp"
          OPTCONFIG=$OPTCONFIG --with-lapack="$INST_DIR/opt/lib -lopenblas-omp"
          ;;
       c) export CC="clang"
@@ -93,10 +93,13 @@ while getopts ":hct:i:oR:N:" option; do
       t) case $OPTARG in
             release) OPTFLAGS="${OPTFLAGS} -g -O2"
             ;;
-            native) OPTFLAGS="${OPTFLAGS} -g -O3 -march=native -pthread -fopenmp"
+            native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp"
                     OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
             ;;
             debug) OPTFLAGS="${OPTFLAGS} -g -O0"
+            ;;
+            opt) OPTFLAGS="${OPTFLAGS} -g -O3 -march=native -pthread -fopenmp"
+                 OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
             ;;
             *) exit_error "Invalid build type"
             ;;
@@ -216,6 +219,7 @@ fi
 # add some 'common' packages
 R -e "install.packages(c('BH', 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
 R -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+R -e "install.packages(c('testit', 'microbenchmark'), repos='${R_MIRROR}')"
 
 # add vscode support packages
 # pull from github to get the newest versions
