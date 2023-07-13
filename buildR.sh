@@ -145,8 +145,8 @@ fi
 if [ -z "$build_type" ]; then
     exit_error "No build type given"
 else
-    if [ "$build_type" != "native" ] && [ ! -z $openblas ]; then
-        exit_error "-o (openblas) only supported for 'native' build"
+    if [ "$build_type" != "native" || "$build_type" != "opt" ] && [ ! -z $openblas ]; then
+        exit_error "-o (openblas) only supported for 'native' or 'opt' build"
     fi
 fi
 
