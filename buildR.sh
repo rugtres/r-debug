@@ -8,7 +8,7 @@ PREFIX="$HOME/opt"
 BUILD_DIR="${SH_DIR}/build"
 INST_DIR=$PREFIX
 R_NAME=""
-R_VERSION="4.2.2"       # default
+R_VERSION="4.3.1"       # default
 OPENBLASLIB="$INST_DIR/lib/libopenblas_omp.so"  # includes LAPACK
 
 # better these exists:
@@ -95,11 +95,13 @@ while getopts ":hct:i:oR:N:" option; do
             ;;
             native) OPTFLAGS="${OPTFLAGS} -g -O2 -march=native -pthread -fopenmp"
                     OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
+                    OPTCONFIG="${OPTCONFIG} --with-libdeflate-compression"
             ;;
             debug) OPTFLAGS="${OPTFLAGS} -g -O0"
             ;;
             opt) OPTFLAGS="${OPTFLAGS} -g -O3 -march=native -pthread -fopenmp"
                  OPTLDFLAGS="${OPTLDFLAGS} -pthread -fopenmp"
+                 OPTCONFIG="${OPTCONFIG} --with-libdeflate-compression"
             ;;
             *) exit_error "Invalid build type"
             ;;

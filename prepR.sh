@@ -45,7 +45,8 @@ $SUDO apt -y install \
     xorg-dev pandoc libcairo-dev \
     texlive-science texlive-base texlive-fonts-extra texinfo texi2html \
     libpng-dev libtiff5-dev libjpeg-dev \
-    default-jdk
+    default-jdk \
+    libdeflate-dev
 
 # bloat by some packages in circulation in TRES
 $SUDO apt -y install \
