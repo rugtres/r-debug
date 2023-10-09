@@ -134,7 +134,7 @@ lrwxrwxrwx ... Rsrc -> /home/hanno/r-debug/build/src/
 
 A similar symlink-jazz is applied to `~\.R\Makevars`.
 
-## Ceck selected R version
+## Check selected R version
 
 ```text
 ./whichR.sh
@@ -314,4 +314,3 @@ sudo ./installOneAPI.sh
 . /opt/intel/oneapi/setvars.sh
 GDK_DPI_SCALE=1.5 vtune-gui
 ```
-
