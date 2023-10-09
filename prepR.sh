@@ -22,14 +22,16 @@ $SUDO apt -y install \
     git rsync wget curl tree \
     build-essential \
     gcc-$GCCVER gfortran-$GCCVER gdb \
-    lldb-$CLANGVER lld-$CLAGVER \
-    libc++-$CLANGVER-dev libc++abi-$CLANGVER-dev libomp-$CLANGVER-dev \
-    libllvm-$CLANGVER-ocaml-dev libllvm$CLANGVER llvm-$CLANGVER llvm-$CLANGVER-dev llvm-$CLANGVER-runtime \
-    clang-$CLANGVER clang-tools-$CLANGVER libclang-common-$CLANGVER-dev libclang-$CLANGVER-dev libclang1-$CLANGVER \
-    clang-format-$CLANGVER python3-clang-$CLANGVER clangd-$CLANGVER clang-tidy-$CLANGVER \
     valgrind-dbg \
     cmake
 
+# LLVM toolchain
+$SUDO apt -y install lsb-release wget software-properties-common gnupg
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+$SUDO ./llvm.sh ${CLANGVER} all
+
+# wire alternatives
 $SUDO update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCCVER $GCCVER
 $SUDO update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$GCCVER $GCCVER
 $SUDO update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-$GCCVER $GCCVER
