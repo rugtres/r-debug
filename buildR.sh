@@ -204,7 +204,7 @@ ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 # symlinks
 cd $SH_DIR
 bash -e "${SH_DIR}/selectR.sh" ${R_NAME}
-
+export PATH=$PATH:$Home/opt/bin
 
 # OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"

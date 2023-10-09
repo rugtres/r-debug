@@ -46,8 +46,9 @@ cd r-debug
 chmod +x *.sh
 ./prepR.sh
 
-# Time to set up some other stuff like ssh...
+# Exit from terminal. Required to set apply new environment
 exit
+# Time to set up some other stuff like ssh...
 ```
 
 ## Make this the 'build' distro for R

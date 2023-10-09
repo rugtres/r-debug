@@ -8,7 +8,6 @@
 cd $(dirname -- ${0})
 
 PROFILE="$HOME/.bashrc"
-
 GCCVER=12
 CLANGVER=16
 
