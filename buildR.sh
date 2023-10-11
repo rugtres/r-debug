@@ -45,7 +45,7 @@ Usage: $0 -N name -R <R version> -S <suffix> [-chtio]
 -h      Display help
 -c      Use clang
 -t      Build type: debug|release|native|opt
--i      Instrumentation: valgrind|profile
+-i      Instrumentation: valgrind|profile|valgrind2
 -o      link against OpenBLAS
 -N      Name
 -R      R version, "devel" or full version e.g. 4.2.1, defaults to ${R_VERSION}
@@ -89,6 +89,7 @@ while getopts ":hct:i:oR:N:" option; do
          ;;
       c) export CC="clang"
          export CXX="clang++"
+         CXXFLAGS=$CXXFLAGS -stdlib=libc++
          ;;
       t) case $OPTARG in
             release) OPTFLAGS="${OPTFLAGS} -g -O2"
@@ -109,10 +110,17 @@ while getopts ":hct:i:oR:N:" option; do
          build_type=$OPTARG
          ;;
       i) case $OPTARG in
-            valgrind) OPTCONFIG="-C --with-valgrind-instrumentation=2 --with-system-valgrind-headers"
+            valgrind) OPTCONFIG="-C --with-valgrind-instrumentation=2"
+            ;;
+            valgrind2) OPTCONFIG="-C --with-valgrind-instrumentation=2"
+                CFLAGS="-gdwarf-4 -O2 -Wall -pedantic -mtune=native"
+                CXXFLAGS="-gdwarf-4 -O2 -Wall -pedantic -mtune=native"
+                FFLAGS="-gdwarf-4 -O2 -mtune=native"
+                FCFLAGS="-gdwarf-4 -O2 -mtune=native"
+		OPTFLAGS=""
             ;;
             profile) OPTFLAGS="${OPTFLAGS} -pg"
-                     OPTLDFLAGS=${OPTLDFLAGS} -pg
+                OPTLDFLAGS=${OPTLDFLAGS} -pg
             ;;
             *) exit_error "Invalid instrumentation"
             ;;
