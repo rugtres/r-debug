@@ -65,6 +65,7 @@ exit_error() {
         usage
     else
         echo "Error: ${1}"
+        usage
     fi
     exit 1
 }
@@ -89,8 +90,9 @@ while getopts ":hct:i:oR:N:" option; do
          ;;
       c) export CC="clang"
          export CXX="clang++"
-         CXXFLAGS=$CXXFLAGS -stdlib=libc++
-         ;;
+         OPTCXXFLAGS="${OPTCXXFLAGS} -stdlib=libc++"
+	     OPTLDFLAGS="${OPTLDFLAGS} -stdlib=libc++"
+        ;;
       t) case $OPTARG in
             release) OPTFLAGS="${OPTFLAGS} -g -O2"
             ;;
@@ -117,7 +119,7 @@ while getopts ":hct:i:oR:N:" option; do
                 CXXFLAGS="-gdwarf-4 -O2 -Wall -pedantic -mtune=native"
                 FFLAGS="-gdwarf-4 -O2 -mtune=native"
                 FCFLAGS="-gdwarf-4 -O2 -mtune=native"
-		OPTFLAGS=""
+		        OPTFLAGS=""
             ;;
             profile) OPTFLAGS="${OPTFLAGS} -pg"
                 OPTLDFLAGS=${OPTLDFLAGS} -pg
@@ -136,7 +138,7 @@ while getopts ":hct:i:oR:N:" option; do
       N) R_NAME=$OPTARG
          ;;
      \?) # Invalid option 
-         exit_error "Invalid option"
+         exit_error "Invalid option '${option}'"
          ;;
    esac
 done
@@ -161,8 +163,8 @@ else
 fi
 
 INST_DIR="${INST_DIR}/${R_NAME}"
-export CFLAGS="${CFLAGS} ${OPTFLAGS}"
-export CXXFLAGS="${CXXFLAGS} ${OPTFLAGS}"
+export CFLAGS="${CFLAGS} ${OPTCFLAGS} ${OPTFLAGS}"
+export CXXFLAGS="${CXXFLAGS} ${OPTCXXFLAGS} ${OPTFLAGS}"
 export FCFLAGS="${FCFLAGS} ${OPTFLAGS}"
 export LDFLAGS="${OPTLDFLAGS}"
 
@@ -170,6 +172,7 @@ echo Bulding R with:
 echo "$CC: $CFLAGS"
 echo "$CXX: $CXXFLAGS"
 echo "$FC: $FCFLAGS"
+echo "LDFLAGS: $LDFLAGS"
 echo "configure: $CONFIG $OPTCONFIG"
 
 # pull source tree into ./build/r-source
@@ -212,7 +215,6 @@ ln -sf ${HOME}/.R/${R_NAME}/Makevars ${HOME}/.R/Makevars
 # symlinks
 cd $SH_DIR
 bash -e "${SH_DIR}/selectR.sh" ${R_NAME}
-export PATH=$PATH:$Home/opt/bin
 
 # OpenBLAS injection
 RBLASLIB="$INST_DIR/lib/R/lib/libRblas.so"
@@ -227,16 +229,17 @@ if [ ! -z "$openblas" ]; then
 fi
 
 # add some 'common' packages
-R -e "install.packages(c('BH', 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
-R -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
-R -e "install.packages(c('testit', 'microbenchmark'), repos='${R_MIRROR}')"
+Rbin="$HOME/opt/bin/R"
+$Rbin -e "install.packages(c('BH', 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
+$Rbin -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
+$Rbin -e "install.packages(c('testit', 'microbenchmark'), repos='${R_MIRROR}')"
 
 # add vscode support packages
 # pull from github to get the newest versions
+$Rbin -e "install.packages('httpgd')"
 RVSCODE="\
 library('remotes');\
 remotes::install_github('REditorSupport/languageserver');\
 remotes::install_github('ManuelHentschel/vscDebugger');\
-remotes::install_github('nx10/httpgd');\
 "
-R -e $RVSCODE
+$Rbin -e $RVSCODE

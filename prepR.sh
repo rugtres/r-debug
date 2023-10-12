@@ -26,7 +26,7 @@ $SUDO apt -y install \
 
 # LLVM toolchain
 $SUDO apt -y install lsb-release wget software-properties-common gnupg
-wget https://apt.llvm.org/llvm.sh
+wget -O ./llvm.sh https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 $SUDO ./llvm.sh ${CLANGVER} all
 
@@ -52,7 +52,7 @@ $SUDO apt -y install \
 # bloat by some packages in circulation in TRES
 $SUDO apt -y install \
     libpq-dev libudunits2-dev libgeos-dev libgdal-dev \
-    unixodbc unixodbc-dev
+    unixodbc unixodbc-dev libgsl-dev
 
 # copy over Rprofile
 cp Rprofile.httpgd $HOME/.Rprofile

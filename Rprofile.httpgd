@@ -1,4 +1,4 @@
-# copied to ~/.Rprofile iby prepR.sh
+# copied to ~/.Rprofile by prepR.sh
 
 # suggested by httpgd
 if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
