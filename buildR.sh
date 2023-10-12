@@ -229,14 +229,14 @@ if [ ! -z "$openblas" ]; then
 fi
 
 # add some 'common' packages
-Rbin="$HOME/opt/bin/R"
+Rbin="$HOME/opt/bin/Rscript"
 $Rbin -e "install.packages(c('BH', 'R6', 'jsonlite', 'Rcpp'), repos='${R_MIRROR}')"
 $Rbin -e "install.packages(c('devtools', 'remotes', 'magrittr', 'SuppDists'), repos='${R_MIRROR}')"
 $Rbin -e "install.packages(c('testit', 'microbenchmark'), repos='${R_MIRROR}')"
 
 # add vscode support packages
 # pull from github to get the newest versions
-$Rbin -e "install.packages('httpgd')"
+$Rbin -e "install.packages(c('httpgd'), repos='${R_MIRROR}')"
 RVSCODE="\
 library('remotes');\
 remotes::install_github('REditorSupport/languageserver');\
