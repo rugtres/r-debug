@@ -35,6 +35,13 @@ sudo apt update
 sudo apt upgrade
 sudo apt autoremove
 ```
+## Note
+Sometimes, wsl can not connect to the internet, it then helps to modify /etc/resolv.conf:
+```
+sudo nano /etc/resolv.conf
+```
+And change the ip adress to: 8.8.8.8
+
 
 ## Prep
 
