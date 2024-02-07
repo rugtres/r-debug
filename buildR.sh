@@ -25,6 +25,7 @@ export LANG=en_US.UTF-8
 CFLAGS="-Wall -pthread -fopenmp"
 CXXFLAGS="-Wall -pthread -fopenmp"
 FCFLAGS="-Wall -pthread -fopenmp"
+LDFLAGS="-lgfortran"
 OPTFLAGS="-g"           # overridden if clang
 OPTLDFLAGS="-pthread"   # overridden if clang
 
@@ -158,7 +159,7 @@ if [[ "$build_type" == "debug" ]]; then
     OPTFLAGS="-O0 -fno-omit-frame-pointer ${OPTFLAGS}"
 elif [[ "$build_type" == "opt" ]]; then
     OPTFLAGS="-DNDEBUG -O3 ${OPTFLAGS}"
-else 
+else
     OPTFLAGS="-DNDEBUG -O2 ${OPTFLAGS}"
 fi
 
@@ -192,7 +193,7 @@ fi
 export CFLAGS="${CFLAGS} ${OPTFLAGS}"
 export CXXFLAGS="${CXXFLAGS} ${OPTFLAGS}"
 export FCFLAGS="${FCFLAGS} ${OPTFLAGS}"
-export LDFLAGS="${OPTLDFLAGS}"
+export LDFLAGS="${LDFLAGS} ${OPTLDFLAGS}"
 
 echo "CC = $CC"
 echo "CXX = $CXX"
