@@ -270,7 +270,7 @@ Reached Antarctica? Use: `sudo rstudio-server kill-all`<br>
 ### Get rid of it
 
 ```bash
-sudo dpgk -r rstudio-server
+sudo dpkg -r rstudio-server
 sudo apt autoremove
 ```
 
