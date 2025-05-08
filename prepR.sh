@@ -63,6 +63,7 @@ if [[ $( cat $PROFILE | grep -c "^# prepR.sh") -eq "0" ]]; then
     echo '# prepR.sh' >> $PROFILE
     echo 'export LC_ALL=en_US.UTF-8' >> $PROFILE
     echo 'export LANG=en_US.UTF-8' >> $PROFILE
+    echo 'export R_LIBS_USER=~/opt/bin/Rlibrary' >> $PROFILE
     echo 'PATH=~/opt/bin:$PATH' >> $PROFILE
 fi
 
