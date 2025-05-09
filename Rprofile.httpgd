@@ -1,5 +1,9 @@
 # copied to ~/.Rprofile by prepR.sh
 
+# set library path
+if(!dir.exists(file.path(Sys.getenv("R_LIBS_USER"))),
+   dir.create(file.path(Syd.getenv("R_LIBS_USER"), recursive = TRUE))
+
 # suggested by httpgd
 if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
   if ("httpgd" %in% .packages(all.available = TRUE)) {
